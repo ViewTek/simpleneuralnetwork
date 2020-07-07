@@ -1,3 +1,9 @@
 # Simple Neural Network
 
-## A single hiddel layer shallow neural network
+## A single hidden layer shallow neural network
+
+```
+cmake .
+# now run make to generate the executable
+make 
+```

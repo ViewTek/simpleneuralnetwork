@@ -63,18 +63,18 @@ int main(int, char**) {
                 for(int i = 1 ; i <= NumInput ; i++ ) {
                     SumH[p][j] += Input[p][i] * WeightIH[i][j] ;
                 }
-                Hidden[p][j] = 1.0/(1.0 + exp(-SumH[p][j])) ;
+                Hidden[p][j] = sigmoid(SumH[p][j]);
             }
             for(int k = 1 ; k <= NumOutput ; k++ ) {    /* compute output unit activations and errors */
                 SumO[p][k] = WeightHO[0][k] ;
                 for(int j = 1 ; j <= NumHidden ; j++ ) {
                     SumO[p][k] += Hidden[p][j] * WeightHO[j][k] ;
                 }
-                Output[p][k] = 1.0/(1.0 + exp(-SumO[p][k])) ;   /* Sigmoidal Outputs */
+                Output[p][k] = sigmoid(SumO[p][k]) ;   /* Sigmoidal Outputs */
 /*              Output[p][k] = SumO[p][k];      Linear Outputs */
                 error += 0.5 * (Target[p][k] - Output[p][k]) * (Target[p][k] - Output[p][k]) ;   /* SSE */
 /*              error -= ( Target[p][k] * log( Output[p][k] ) + ( 1.0 - Target[p][k] ) * log( 1.0 - Output[p][k] ) ) ;    Cross-Entropy error */
-                DeltaO[k] = (Target[p][k] - Output[p][k]) * Output[p][k] * (1.0 - Output[p][k]) ;   /* Sigmoidal Outputs, SSE */
+                DeltaO[k] = (Target[p][k] - Output[p][k]) * sigmoid_derivative(SumO[p][k]);   /* Sigmoidal Outputs, SSE */
 /*              DeltaO[k] = Target[p][k] - Output[p][k];     Sigmoidal Outputs, Cross-Entropy error */
 /*              DeltaO[k] = Target[p][k] - Output[p][k];     Linear Outputs, SSE */
             }
